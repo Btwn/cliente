@@ -29,7 +29,7 @@
             />
           </v-list-tile-avatar>
           <v-list-tile-title class="title">
-            Vuetify MD
+            Intelisis MG
           </v-list-tile-title>
         </v-list-tile>
         <v-divider/>
@@ -38,25 +38,64 @@
         >
           <v-text-field
             class="purple-input search-input"
-            label="Search..."
+            label="Buscar..."
             color="purple"
           />
         </v-list-tile>
-        <v-list-tile
-          v-for="(link, i) in links"
-          :key="i"
-          :to="link.to"
-          :active-class="color"
-          avatar
+        <v-list-group
+          :value="false"
+          prepend-icon="mdi-baby-buggy"
           class="v-list-item"
         >
-          <v-list-tile-action>
-            <v-icon>{{ link.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title
-            v-text="link.text"
-          />
-        </v-list-tile>
+          <v-list-tile
+            slot="activator"
+            class="v-list-item"
+          >
+            <v-list-tile-title>Migracion</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile
+            v-for="(link, i) in linksMG"
+            :key="i"
+            :to="link.to"
+            :active-class="color"
+            avatar
+            class="v-list-item"
+          >
+            <v-list-tile-action>
+              <v-icon>{{ link.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title
+              v-text="link.text"
+            />
+          </v-list-tile>
+        </v-list-group>
+        <v-list-group
+          :value="false"
+          prepend-icon="mdi-ambulance"
+          class="v-list-item"
+        >
+          <v-list-tile
+            slot="activator"
+            class="v-list-item"
+          >
+            <v-list-tile-title>Ejemplos</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile
+            v-for="(link, i) in links"
+            :key="i"
+            :to="link.to"
+            :active-class="color"
+            avatar
+            class="v-list-item"
+          >
+            <v-list-tile-action>
+              <v-icon>{{ link.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title
+              v-text="link.text"
+            />
+          </v-list-tile>
+        </v-list-group>
         <v-list-tile
           disabled
           active-class="primary"
@@ -120,6 +159,13 @@ export default {
         to: '/notifications',
         icon: 'mdi-bell',
         text: 'Notifications'
+      }
+    ],
+    linksMG: [
+      {
+        to: '/listaArchivos',
+        icon: 'mdi-altimeter',
+        text: 'Lista Archivos'
       }
     ],
     responsive: false

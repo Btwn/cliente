@@ -39,5 +39,10 @@ export default [
     path: '/upgrade',
     name: 'Upgrade to PRO',
     view: 'Upgrade'
+  },
+  {
+    path: '/listaArchivos',
+    name: 'Lista Archivos',
+    view: 'ListaArchivos'
   }
 ]
