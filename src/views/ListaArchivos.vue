@@ -39,7 +39,9 @@
               <td>{{ item.version3100 }}</td>
               <td>{{ item.nombre }}</td>
               <td>
-                <v-layout row justify-center>
+                <v-layout
+                  row
+                  justify-center>
                   <v-btn
                     color="primary"
                     dark
@@ -53,15 +55,20 @@
                     hide-overlay
                     transition="dialog-bottom-transition"
                   >
-                  <v-card>
-                    <v-toolbar dark color="primary">
-                      <v-btn icon dark @click="dialog = false">
-                        <v-icon>mdi-backspace</v-icon>
-                      </v-btn>
-                      <v-toolbar-title>Nombre Archivo</v-toolbar-title>
-                    </v-toolbar>
-                    {{ mostrarDiff }}
-                  </v-card>
+                    <v-card>
+                      <v-toolbar
+                        dark
+                        color="primary">
+                        <v-btn
+                          icon
+                          dark
+                          @click="dialog = false">
+                          <v-icon>mdi-backspace</v-icon>
+                        </v-btn>
+                        <v-toolbar-title>Nombre Archivo</v-toolbar-title>
+                      </v-toolbar>
+                      {{ mostrarDiff }}
+                    </v-card>
                   </v-dialog>
                 </v-layout>
               </td>
@@ -94,12 +101,12 @@ export default {
       {
         sortable: false,
         text: '5000',
-        value: 'id'
+        value: 'version5000'
       },
       {
         sortable: false,
         text: '3100',
-        value: 'id'
+        value: 'version3100'
       },
       {
         sortable: true,
@@ -112,15 +119,6 @@ export default {
       }
     ]
   }),
-  methods: {
-    leerArchivos(name) {
-      this.dialog = true
-      axios.get(`http://localhost:3333/api/file/${name}`)
-      .then(resolve => {
-        this.mostrarDiff = resolve.data
-      })
-    }
-  },
   mounted () {
     axios.get('http://localhost:3333/api/path')
       .then(resolve => {
@@ -142,6 +140,15 @@ export default {
         })
       })
       .catch(error => console.log(error))
+  },
+  methods: {
+    leerArchivos (name) {
+      this.dialog = true
+      axios.get(`http://localhost:3333/api/file/${name}`)
+        .then(resolve => {
+          this.mostrarDiff = resolve.data
+        })
+    }
   }
 }
 </script>
