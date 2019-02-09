@@ -38,7 +38,33 @@
               <td>{{ item.version5000 }}</td>
               <td>{{ item.version3100 }}</td>
               <td>{{ item.nombre }}</td>
-              <td><v-btn color="success">5000 vs 3100</v-btn></td>
+              <td>
+                <v-layout row justify-center>
+                  <v-btn
+                    color="primary"
+                    dark
+                    @click="leerArchivos(item.nombre)"
+                  >
+                    Open Dialog
+                  </v-btn>
+                  <v-dialog
+                    v-model="dialog"
+                    fullscreen
+                    hide-overlay
+                    transition="dialog-bottom-transition"
+                  >
+                  <v-card>
+                    <v-toolbar dark color="primary">
+                      <v-btn icon dark @click="dialog = false">
+                        <v-icon>mdi-backspace</v-icon>
+                      </v-btn>
+                      <v-toolbar-title>Nombre Archivo</v-toolbar-title>
+                    </v-toolbar>
+                    {{ mostrarDiff }}
+                  </v-card>
+                  </v-dialog>
+                </v-layout>
+              </td>
             </template>
           </v-data-table>
         </material-card>
@@ -53,7 +79,9 @@ import axios from 'axios'
 
 export default {
   data: () => ({
+    dialog: false,
     selected: [],
+    mostrarDiff: {},
     archivos: [
       {
         nombre: 'algo'
@@ -84,6 +112,15 @@ export default {
       }
     ]
   }),
+  methods: {
+    leerArchivos(name) {
+      this.dialog = true
+      axios.get(`http://localhost:3333/api/file/${name}`)
+      .then(resolve => {
+        this.mostrarDiff = resolve.data
+      })
+    }
+  },
   mounted () {
     axios.get('http://localhost:3333/api/path')
       .then(resolve => {
