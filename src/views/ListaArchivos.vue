@@ -35,9 +35,9 @@
               slot="items"
               slot-scope="{ item }"
             >
-              <td>{{ item.nombre.version5000 }}</td>
-              <td>{{ item.nombre.version3100 }}</td>
-              <td>{{ item.nombre.nombre }}</td>
+              <td>{{ item.version5000 }}</td>
+              <td>{{ item.version3100 }}</td>
+              <td>{{ item.nombre }}</td>
               <td><v-btn color="success">5000 vs 3100</v-btn></td>
             </template>
           </v-data-table>
@@ -87,19 +87,19 @@ export default {
   mounted () {
     axios.get('http://localhost:3333/api/path')
       .then(resolve => {
-        this.archivos = resolve.data.map(x => ({ nombre: x }))
+        this.archivos = resolve.data
         this.archivos = this.archivos.map(item => {
           let version5000 = []
-          item.nombre.orig5000 && version5000.push('O')
-          item.nombre.repo5000 && version5000.push('R')
-          item.nombre.espe5000 && version5000.push('E')
-          item.nombre.version5000 = version5000.join('-')
+          item.orig5000 && version5000.push('O')
+          item.repo5000 && version5000.push('R')
+          item.espe5000 && version5000.push('E')
+          item.version5000 = version5000.join('-')
 
           let version3100 = []
-          item.nombre.orig3100 && version3100.push('O')
-          item.nombre.repo3100 && version3100.push('R')
-          item.nombre.espe3100 && version3100.push('E')
-          item.nombre.version3100 = version3100.join('-')
+          item.orig3100 && version3100.push('O')
+          item.repo3100 && version3100.push('R')
+          item.espe3100 && version3100.push('E')
+          item.version3100 = version3100.join('-')
 
           return item
         })
