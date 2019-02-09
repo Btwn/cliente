@@ -35,8 +35,10 @@
               slot="items"
               slot-scope="{ item }"
             >
-              <td>{{ item.id }}</td>
-              <td>{{ item.nombre }}</td>
+              <td>{{ item.nombre.version5000 }}</td>
+              <td>{{ item.nombre.version3100 }}</td>
+              <td>{{ item.nombre.nombre }}</td>
+              <td><v-btn color="success">5000 vs 3100</v-btn></td>
             </template>
           </v-data-table>
         </material-card>
@@ -52,9 +54,6 @@ import axios from 'axios'
 export default {
   data: () => ({
     selected: [],
-    pagination: {
-      sortBy: 'nombre'
-    },
     archivos: [
       {
         nombre: 'algo'
@@ -66,21 +65,44 @@ export default {
     headers: [
       {
         sortable: false,
-        text: 'ID',
+        text: '5000',
+        value: 'id'
+      },
+      {
+        sortable: false,
+        text: '3100',
         value: 'id'
       },
       {
         sortable: true,
         text: 'Nombre',
         value: 'nombre'
+      },
+      {
+        sortable: false,
+        text: 'Comparar'
       }
     ]
   }),
   mounted () {
-    axios.get('http://localhost:3333/api/files')
-      .then(response => {
-        this.archivos = response.data.filter((x, k) => k <= 20).map(x => ({ nombre: x }))
-        console.log(this.archivos)
+    axios.get('http://localhost:3333/api/path')
+      .then(resolve => {
+        this.archivos = resolve.data.map(x => ({ nombre: x }))
+        this.archivos = this.archivos.map(item => {
+          let version5000 = []
+          item.nombre.orig5000 && version5000.push('O')
+          item.nombre.repo5000 && version5000.push('R')
+          item.nombre.espe5000 && version5000.push('E')
+          item.nombre.version5000 = version5000.join('-')
+
+          let version3100 = []
+          item.nombre.orig3100 && version3100.push('O')
+          item.nombre.repo3100 && version3100.push('R')
+          item.nombre.espe3100 && version3100.push('E')
+          item.nombre.version3100 = version3100.join('-')
+
+          return item
+        })
       })
       .catch(error => console.log(error))
   }
