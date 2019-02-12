@@ -43,7 +43,7 @@
           />
         </v-list-tile>
         <v-list-group
-          :value="false"
+          :value="true"
           prepend-icon="mdi-baby-buggy"
           class="v-list-item"
         >
@@ -55,6 +55,33 @@
           </v-list-tile>
           <v-list-tile
             v-for="(link, i) in linksMG"
+            :key="i"
+            :to="link.to"
+            :active-class="color"
+            avatar
+            class="v-list-item"
+          >
+            <v-list-tile-action>
+              <v-icon>{{ link.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title
+              v-text="link.text"
+            />
+          </v-list-tile>
+        </v-list-group>
+        <v-list-group
+          :value="false"
+          prepend-icon="mdi-auto-fix"
+          class="v-list-item"
+        >
+          <v-list-tile
+            slot="activator"
+            class="v-list-item"
+          >
+            <v-list-tile-title>Reparación</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile
+            v-for="(link, i) in toolsMG"
             :key="i"
             :to="link.to"
             :active-class="color"
@@ -166,6 +193,43 @@ export default {
         to: '/listaArchivos',
         icon: 'mdi-altimeter',
         text: 'Lista Archivos'
+      },
+      {
+        to: '/acceso',
+        icon: 'mdi-account',
+        text: 'Acceso'
+      },
+      {
+        to: '/relacion',
+        icon: 'mdi-account-group',
+        text: 'Relacion de objetos'
+      }
+    ],
+    toolsMG: [
+      {
+        to: '/codificar',
+        icon: 'mdi-anchor',
+        text: 'Una sola codificacion'
+      },
+      {
+        to: '/especialesFix',
+        icon: 'mdi-arrow-decision',
+        text: 'Arreglar especiales'
+      },
+      {
+        to: '/ventanaTipoMarco',
+        icon: 'mdi-application',
+        text: 'Arreglar los marcos'
+      },
+      {
+        to: '/fondoNegro',
+        icon: 'mdi-alert-circle',
+        text: 'Arreglar fondo negro'
+      },
+      {
+        to: '/menuPrincipal',
+        icon: 'mdi-auto-fix',
+        text: 'Re-acomodar Menu'
       }
     ],
     responsive: false
