@@ -45,7 +45,7 @@
                   <v-btn
                     color="primary"
                     dark
-                    @click="leerArchivos(item.nombre)"
+                    @click="leerArchivo(item.nombre)"
                   >
                     Open Dialog
                   </v-btn>
@@ -68,11 +68,11 @@
                         <v-toolbar-title>Nombre Archivo</v-toolbar-title>
                       </v-toolbar>
                       <editor-diff
-                        diff-editor="true"
-                        original= "options = mostrarDiff"
-                        modified=""
+                        :diffEditor="true"
+                        :original="original"
+                        v-model="modificado"
                         style="width:100%;height:600px;border:1px solid #ccc"
-                        @mounted="onMounted"
+                        @mounted="onMounted('alg')"
                         @codeChange="onCodeChange"
                       />
                     </v-card>
@@ -100,15 +100,10 @@ export default {
   data: () => ({
     dialog: false,
     selected: [],
-    mostrarDiff: {
-      name: 'updated object',
-      description: 'it\'s an object!',
-      details: {
-        it: 'has',
-        an: 'array',
-        with: ['a', 'few', 'more', 'elements', { than: 'before' }]
-      }
-    },
+    editor: null,
+    mostrarDiff: {},
+    original: 'algo',
+    modificado: 'algo',
     archivos: [
       {
         nombre: 'algo'
@@ -139,6 +134,10 @@ export default {
       }
     ]
   }),
+  // computed: {
+  //   original: function() { return this.fetchFile() },
+  //   modificado: function() { return this.fetchFile() }
+  // },
   mounted () {
     axios.get('http://localhost:3333/api/path')
       .then(resolve => {
@@ -162,18 +161,26 @@ export default {
       .catch(error => console.log(error))
   },
   methods: {
-    leerArchivos (name) {
-      this.dialog = true
+    leerArchivo (name) {
+      // this.dialog = true
       axios.get(`http://localhost:3333/api/file/${name}`)
         .then(resolve => {
           this.mostrarDiff = resolve.data
+          // console.log(this)
+          this.original = 'algodon'
+          // this.modificado = 'algodon'
+          this.dialog = true
         })
     },
     onMounted (editor) {
-      this.editor = editor
+       this.editor = editor
     },
     onCodeChange (editor) {
-      this.editor = editor
+      console.log(this.editor.getValue())
+      // this.editor = editor
+    },
+    fetchFile () {
+      return 'algo'
     }
   }
 }

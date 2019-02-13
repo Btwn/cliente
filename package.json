@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "chartist": "0.11.0",
+    "deep-diff": "^1.0.2",
     "handlefiles": "0.0.1",
     "monaco-editor": "^0.15.6",
     "monaco-editor-vue": "^1.0.4",
