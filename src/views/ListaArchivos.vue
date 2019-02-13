@@ -67,7 +67,14 @@
                         </v-btn>
                         <v-toolbar-title>Nombre Archivo</v-toolbar-title>
                       </v-toolbar>
-                      {{ mostrarDiff }}
+                      <editor-diff
+                        diff-editor="true"
+                        original= "options = mostrarDiff"
+                        modified=""
+                        style="width:100%;height:600px;border:1px solid #ccc"
+                        @mounted="onMounted"
+                        @codeChange="onCodeChange"
+                      />
                     </v-card>
                   </v-dialog>
                 </v-layout>
@@ -83,12 +90,25 @@
 
 <script>
 import axios from 'axios'
+import EditorDiff from 'monaco-editor-vue'
 
 export default {
+  components:
+    {
+      EditorDiff
+    },
   data: () => ({
     dialog: false,
     selected: [],
-    mostrarDiff: {},
+    mostrarDiff: {
+      name: 'updated object',
+      description: 'it\'s an object!',
+      details: {
+        it: 'has',
+        an: 'array',
+        with: ['a', 'few', 'more', 'elements', { than: 'before' }]
+      }
+    },
     archivos: [
       {
         nombre: 'algo'
@@ -148,6 +168,12 @@ export default {
         .then(resolve => {
           this.mostrarDiff = resolve.data
         })
+    },
+    onMounted (editor) {
+      this.editor = editor
+    },
+    onCodeChange (editor) {
+      this.editor = editor
     }
   }
 }
