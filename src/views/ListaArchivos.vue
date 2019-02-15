@@ -16,10 +16,8 @@
           text="La lista de Archivos 5000Capacitacion "
         >
           <v-data-table
-
             :headers="headers"
             :items="archivos"
-
             hide-actions
           >
             <template
@@ -49,32 +47,6 @@
                   >
                     Open Dialog
                   </v-btn>
-                  <v-dialog
-                    v-model="dialog"
-                    fullscreen
-                    hide-overlay
-                    transition="dialog-bottom-transition"
-                  >
-                    <v-card>
-                      <v-toolbar
-                        dark
-                        color="primary">
-                        <v-btn
-                          icon
-                          dark
-                          @click="dialog = false">
-                          <v-icon>mdi-backspace</v-icon>
-                        </v-btn>
-                        <v-toolbar-title>Nombre Archivo</v-toolbar-title>
-                      </v-toolbar>
-                      <editor-diff
-                        diff-editor="true"
-                        :original="mostrarDiff.original"
-                        :value="mostrarDiff.value"
-                        style="width:100%;height:600px;border:1px solid #ccc"
-                      />
-                    </v-card>
-                  </v-dialog>
                 </v-layout>
               </td>
             </template>
@@ -82,35 +54,53 @@
         </material-card>
       </v-flex>
     </v-layout>
+    <v-dialog
+      v-if="dialog"
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar
+          dark
+          color="primary">
+          <v-btn
+            icon
+            dark
+            @click="dialog = false">
+            <v-icon>mdi-backspace</v-icon>
+          </v-btn>
+          <v-toolbar-title>Nombre Archivos</v-toolbar-title>
+        </v-toolbar>
+        <diff-editor
+          :original="mostrarDiff.original"
+          :modified="mostrarDiff.modified"
+        />
+      </v-card>
+    </v-dialog>
     <!-- <p>{{ archivos }}</p> -->
   </v-container>
 </template>
 
 <script>
 import axios from 'axios'
-import EditorDiff from 'monaco-editor-vue'
+import DiffEditor from '../components/helper/DiffEditor.vue'
 
 export default {
   components:
     {
-      EditorDiff
+      DiffEditor
     },
   data: () => ({
+    archivos: [],
     dialog: false,
     selected: [],
     editor: null,
     mostrarDiff: {
-      original: 'hoola',
-      value: 'como estas?'
+      original: 'hoolas',
+      modified: 'como estas?'
     },
-    archivos: [
-      {
-        nombre: 'algo'
-      },
-      {
-        nombre: 'algodon'
-      }
-    ],
     headers: [
       {
         sortable: false,
@@ -133,10 +123,6 @@ export default {
       }
     ]
   }),
-  // computed: {
-  //   original: function() { return this.fetchFile() },
-  //   modificado: function() { return this.fetchFile() }
-  // },
   mounted () {
     axios.get('http://localhost:3333/api/path')
       .then(resolve => {
@@ -160,13 +146,13 @@ export default {
       .catch(error => console.log(error))
   },
   methods: {
-    leerArchivo (name) {
+    async leerArchivo (name) {
+      this.dialog = false
+      let resolve = await axios.get(`http://localhost:3333/api/file/${name}`)
+      console.log(JSON.stringify(resolve.data.orig3100))
+      this.mostrarDiff.original = await JSON.stringify(resolve.data.orig3100)
+      this.mostrarDiff.modified = await JSON.stringify(resolve.data.orig5000)
       this.dialog = true
-      axios.get(`http://localhost:3333/api/file/${name}`)
-        .then(resolve => {
-          this.mostrarDiff = resolve.data
-          console.log(this.mostrarDiff)
-        })
     }
   }
 }

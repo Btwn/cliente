@@ -13,7 +13,6 @@
     "deep-diff": "^1.0.2",
     "handlefiles": "0.0.1",
     "monaco-editor": "^0.15.6",
-    "monaco-editor-vue": "^1.0.4",
     "monaco-editor-webpack-plugin": "^1.7.0",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
