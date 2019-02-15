@@ -68,12 +68,10 @@
                         <v-toolbar-title>Nombre Archivo</v-toolbar-title>
                       </v-toolbar>
                       <editor-diff
-                        :diffEditor="true"
-                        :original="original"
-                        v-model="modificado"
+                        diff-editor="true"
+                        :original="mostrarDiff.original"
+                        :value="mostrarDiff.value"
                         style="width:100%;height:600px;border:1px solid #ccc"
-                        @mounted="onMounted('alg')"
-                        @codeChange="onCodeChange"
                       />
                     </v-card>
                   </v-dialog>
@@ -101,9 +99,10 @@ export default {
     dialog: false,
     selected: [],
     editor: null,
-    mostrarDiff: {},
-    original: 'algo',
-    modificado: 'algo',
+    mostrarDiff: {
+      original: 'hoola',
+      value: 'como estas?'
+    },
     archivos: [
       {
         nombre: 'algo'
@@ -162,25 +161,12 @@ export default {
   },
   methods: {
     leerArchivo (name) {
-      // this.dialog = true
+      this.dialog = true
       axios.get(`http://localhost:3333/api/file/${name}`)
         .then(resolve => {
           this.mostrarDiff = resolve.data
-          // console.log(this)
-          this.original = 'algodon'
-          // this.modificado = 'algodon'
-          this.dialog = true
+          console.log(this.mostrarDiff)
         })
-    },
-    onMounted (editor) {
-       this.editor = editor
-    },
-    onCodeChange (editor) {
-      console.log(this.editor.getValue())
-      // this.editor = editor
-    },
-    fetchFile () {
-      return 'algo'
     }
   }
 }
