@@ -149,9 +149,8 @@ export default {
     async leerArchivo (name) {
       this.dialog = false
       let resolve = await axios.get(`http://localhost:3333/api/file/${name}`)
-      console.log(JSON.stringify(resolve.data.orig3100))
-      this.mostrarDiff.original = await JSON.stringify(resolve.data.orig3100)
-      this.mostrarDiff.modified = await JSON.stringify(resolve.data.orig5000)
+      this.mostrarDiff.original = await JSON.stringify(resolve.data.orig3100, null, '\t')
+      this.mostrarDiff.modified = await JSON.stringify(resolve.data.orig5000, null, '\t')
       this.dialog = true
     }
   }

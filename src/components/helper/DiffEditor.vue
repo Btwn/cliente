@@ -1,7 +1,7 @@
 <template>
   <div
     id="container-monaco"
-    style="width:800px;height:600px;border:1px solid grey">
+    style="width:auto;height:600px;border:1px solid grey">
   </div>
 </template>
 
