@@ -45,7 +45,7 @@
                     dark
                     @click="leerArchivo(item.nombre)"
                   >
-                    Open Dialog
+                    Comparar
                   </v-btn>
                 </v-layout>
               </td>
@@ -71,7 +71,7 @@
             @click="dialog = false">
             <v-icon>mdi-backspace</v-icon>
           </v-btn>
-          <v-toolbar-title>Nombre Archivos</v-toolbar-title>
+          <v-toolbar-title>Nombre: {{ nombreArchivo }}</v-toolbar-title>
         </v-toolbar>
         <diff-editor
           :original="mostrarDiff.original"
@@ -95,6 +95,7 @@ export default {
   data: () => ({
     archivos: [],
     dialog: false,
+    nombreArchivo: '',
     selected: [],
     editor: null,
     mostrarDiff: {
@@ -151,6 +152,7 @@ export default {
       let resolve = await axios.get(`http://localhost:3333/api/file/${name}`)
       this.mostrarDiff.original = await JSON.stringify(resolve.data.orig3100, null, '\t')
       this.mostrarDiff.modified = await JSON.stringify(resolve.data.orig5000, null, '\t')
+      this.nombreArchivo = name
       this.dialog = true
     }
   }
