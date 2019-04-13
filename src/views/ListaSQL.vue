@@ -12,8 +12,8 @@
       >
         <material-card
           color="green"
-          title="Lista de Archivos"
-          text="La lista de Archivos 5000Capacitacion "
+          title="Lista de SQL"
+          text="La lista de Objetos SQL "
         >
           <v-data-table
             :headers="headers"
@@ -33,28 +33,21 @@
               slot="items"
               slot-scope="{ item }"
             >
-              <td>{{ item.version5000 }}</td>
-              <td>{{ item.version3100 }}</td>
-              <td>{{ item.nombre }}</td>
               <td>
                 <v-layout
                   row
                   justify-center>
                   <v-btn
                     color="success"
-                    @click="checkArchivo(item)">
-                    <v-icon dark>mdi-autorenew</v-icon>
-                  </v-btn>
-                  <v-btn
-                    color="primary"
                     dark
-                    @click="leerArchivo(item.nombre)"
+                    @click="leerArchivo(item)"
                   >
-                    {{ item.diff }}
+                    {{ item }}
                   </v-btn>
                 </v-layout>
               </td>
             </template>
+
           </v-data-table>
         </material-card>
       </v-flex>
@@ -111,55 +104,25 @@ export default {
     headers: [
       {
         sortable: false,
-        text: '5000',
-        value: 'version5000'
-      },
-      {
-        sortable: false,
-        text: '3100',
-        value: 'version3100'
-      },
-      {
-        sortable: true,
-        text: 'Nombre',
-        value: 'nombre'
-      },
-      {
-        sortable: false,
         text: 'Comparar'
       }
     ],
     comparar: 'Comparar'
   }),
   mounted () {
-    axios.get('http://localhost:3333/api/path')
+    axios.get('http://127.0.0.1:3333/api/sql')
       .then(resolve => {
         this.archivos = resolve.data
-        this.archivos = this.archivos.map(item => {
-          let version5000 = []
-          item.orig5000 && version5000.push('O')
-          item.repo5000 && version5000.push('R')
-          item.espe5000 && version5000.push('E')
-          item.version5000 = version5000.join('-')
-
-          let version3100 = []
-          item.orig3100 && version3100.push('O')
-          item.repo3100 && version3100.push('R')
-          item.espe3100 && version3100.push('E')
-          item.version3100 = version3100.join('-')
-
-          item.diff = 'desconocido'
-          return item
-        })
+        console.log(this.archivos)
       })
       .catch(error => console.log(error))
   },
   methods: {
     async leerArchivo (name) {
       this.dialog = false
-      let resolve = await axios.get(`http://localhost:3333/api/file/${name}`)
-      this.mostrarDiff.original = await JSON.stringify(resolve.data.orig3100, null, '\t')
-      this.mostrarDiff.modified = await JSON.stringify(resolve.data.orig5000, null, '\t')
+      let resolve = await axios.get(`http://localhost:3333/api/sql/${name}`)
+      this.mostrarDiff.original = await resolve.data.orig3100
+      this.mostrarDiff.modified = await resolve.data.orig5000
       this.nombreArchivo = name
       this.dialog = true
     },

@@ -191,6 +191,11 @@ export default {
     linksMG: [
       {
         to: '/listaArchivos',
+        icon: 'mdi-anvil',
+        text: 'Lista SQL'
+      },
+      {
+        to: '/listaSql',
         icon: 'mdi-altimeter',
         text: 'Lista Archivos'
       },

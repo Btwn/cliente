@@ -23,8 +23,8 @@ export default {
       { originalEditable: true }
     )
     this.diffEditor.setModel({
-      original: monaco.editor.createModel(this.original, 'json'),
-      modified: monaco.editor.createModel(this.modified, 'json')
+      original: monaco.editor.createModel(this.original, 'sql'),
+      modified: monaco.editor.createModel(this.modified, 'sql')
     })
   }
 }

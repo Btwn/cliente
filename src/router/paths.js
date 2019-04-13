@@ -43,6 +43,11 @@ export default [
   {
     path: '/listaArchivos',
     name: 'Lista Archivos',
+    view: 'ListaSQL'
+  },
+  {
+    path: '/listaSql',
+    name: 'Lista Sql',
     view: 'ListaArchivos'
   },
   {
