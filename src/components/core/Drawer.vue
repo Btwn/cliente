@@ -192,12 +192,17 @@ export default {
       {
         to: '/listaArchivos',
         icon: 'mdi-anvil',
-        text: 'Lista SQL'
+        text: 'Lista Archivos'
       },
       {
         to: '/listaSql',
         icon: 'mdi-altimeter',
-        text: 'Lista Archivos'
+        text: 'Lista SQL'
+      },
+      {
+        to: '/listaEspeciales',
+        icon: 'mdi-altimeter',
+        text: 'Lista Especiales'
       },
       {
         to: '/acceso',
